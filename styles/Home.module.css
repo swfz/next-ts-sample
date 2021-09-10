@@ -113,6 +113,14 @@
   margin-left: 0.5rem;
 }
 
+.done {
+  background-color: #CCCCCC;
+}
+
+.undone {
+  background-color: #FFFFFF;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
