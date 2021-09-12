@@ -1,5 +1,7 @@
 import type { NextPage } from 'next'
-import { useState } from 'react';
+import { useState } from 'react'
+import { RecoilRoot, useRecoilState } from 'recoil'
+import { todoListState } from '../../src/atoms/TodoListAtoms'
 import styles from '../../styles/Home.module.css'
 
 interface Todo {
@@ -31,14 +33,18 @@ const TodoItem = (props: TodoItem) => {
 }
 
 const Todo: NextPage = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useRecoilState(todoListState);
   const [text, setText] = useState();
+
+  const todoCount = todos.filter(t => !t.done).length;
+  const doneCount = todos.filter(t => t.done).length;
+  const characterCount = text.length;
 
   const addFn = (event) => {
     console.log(event);
 
     console.log(text);
-    setTodos([...todos,{name: text, done: false}]);
+    setTodos([...todos, {name: text, done: false}]);
     setText('')
   }
 
@@ -46,9 +52,11 @@ const Todo: NextPage = () => {
     <>
       <div>ToDo List</div>
       <form onSubmit={(e) => e.preventDefault()}>
-        <input type="text" value={text} onChange={(e) => setText(e.target.value)}/>
+        <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
         <input type="submit" value="Add" onClick={addFn} />
       </form>
+      <p>文字数: { characterCount }</p>
+      <div>todo: {todoCount}, done: {doneCount}</div>
 
       {todos.map((todo: Todo) => {
         return <TodoItem todo={todo}></TodoItem>
