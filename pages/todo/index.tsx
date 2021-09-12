@@ -71,7 +71,7 @@ const Todo: NextPage = () => {
       <div>todo: {todoCount}, done: {doneCount}</div>
 
       {todos.map((todo: Todo) => {
-        return <TodoItem todo={todo}></TodoItem>
+        return <TodoItem key={todo.id} todo={todo}></TodoItem>
       })}
     </>
   )
