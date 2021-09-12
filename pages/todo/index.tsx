@@ -37,8 +37,8 @@ const TodoItem = (props: TodoItem) => {
   return (
     <>
       <div className={className}>
-        <input type="checkbox" name={props.todo.name} onChange={doneFn} checked={checked}/>
-        <label for={todo.name}>{props.todo.name}</label>
+        <input id={props.todo.id} type="checkbox" name={props.todo.name} onChange={doneFn} checked={checked}/>
+        <label for={props.todo.id}>{props.todo.name}</label>
       </div>
     </>
   )
