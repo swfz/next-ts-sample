@@ -2,22 +2,25 @@ import type { NextPage } from 'next'
 import { useEffect, useState, useRef } from 'react'
 
 const Timer: NextPage = () => {
-  const canvasRef = useRef(null);
-  const videoRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const [count, setCount] = useState(30);
 
-  const getContext = (): CanvasRenderingContext2D => {
-    const canvas: HTMLCanvasElement = canvasRef.current;
+  const getContext = (): CanvasRenderingContext2D|null => {
+    const canvas = canvasRef.current;
 
-    return canvas.getContext('2d');
+    return canvas ? canvas.getContext('2d') : null;
   }
 
   async function createVideo() {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    video.srcObject = canvas.captureStream();
-    video.play();
+
+    if(canvas && video) {
+      video.srcObject = canvas.captureStream();
+      video.play();
+    }
   }
 
   const handleVideoEvent = (e: any) => {
@@ -25,7 +28,10 @@ const Timer: NextPage = () => {
   }
 
   useEffect(() => {
-    const ctx: CanvasRenderingContext2D = getContext();
+    const ctx: CanvasRenderingContext2D|null = getContext();
+
+    if (!ctx) {return};
+
     ctx.clearRect(0, 0, 300, 100);
     ctx.fillStyle = '#999999';
     ctx.fillText(count.toString(), 50, 50);
