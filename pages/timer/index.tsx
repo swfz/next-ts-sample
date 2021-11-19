@@ -61,8 +61,8 @@ const Timer: NextPage = () => {
     const height = 100;
 
     const value = formatTime(count);
-    const bgColor = count === 0 ? '#99CCFF' : '#EFEFEF';
-    const fgColor = count === 0 ? '#CC33CC' : '#666666';
+    const bgColor = count === 0 ? '#cc1074' : '#EFEFEF';
+    const fgColor = count === 0 ? '#000000' : '#666666';
     const guageFgColor1 = '#ff1493';
     const guageFgColor2 = '#cc1074'
     const guageBgColor = '#000000';
@@ -71,7 +71,8 @@ const Timer: NextPage = () => {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, width, height);
     ctx.fillStyle = fgColor;
-    ctx.fillText(value, 50, 50);
+    ctx.font = '30px Arial'
+    ctx.fillText(value, 90, 45);
     ctx.strokeStyle = '#666666';
     ctx.strokeRect(20, 70, 260, 10);
     // guage background
