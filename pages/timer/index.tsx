@@ -61,6 +61,11 @@ const Timer: NextPage = () => {
     setMaxCount(count);
   }
 
+  const resetTimer = () => {
+    setFormValue({hour: 0, min: 0, sec: 0});
+    setCount(0);
+  }
+
   const writeToCanvas = (ctx: CanvasRenderingContext2D, count: number) => {
     const width = 300;
     const height = 100;
@@ -129,7 +134,7 @@ const Timer: NextPage = () => {
         <span>Hour: </span>
         <select value={formValue.hour} onChange={handleHourChange}>
           {hours.map(hour => {
-            return <option value={hour}>{hour.toString().padStart(2, '0')}</option>
+            return <option key={hour} value={hour}>{hour.toString().padStart(2, '0')}</option>
           })}
         </select>
       </div>
@@ -137,7 +142,7 @@ const Timer: NextPage = () => {
         <span>Min: </span>
         <select value={formValue.min} onChange={handleMinChange}>
           {minutes.map(min=> {
-            return <option value={min}>{min.toString().padStart(2, '0')}</option>
+            return <option key={min} value={min}>{min.toString().padStart(2, '0')}</option>
           })}
         </select>
       </div>
@@ -145,11 +150,12 @@ const Timer: NextPage = () => {
         <span>Sec: </span>
         <select value={formValue.sec} onChange={handleSecChange}>
           {seconds.map(sec=> {
-            return <option value={sec}>{sec.toString().padStart(2, '0')}</option>
+            return <option key={sec} value={sec}>{sec.toString().padStart(2, '0')}</option>
           })}
         </select>
       </div>
       <button onClick={startTimer}>Start Timer</button>
+      <button onClick={resetTimer}>Reset Timer</button>
       <button onClick={createVideo}>Picture in Picture</button>
       <video muted={true} onLoadedMetadata={handleVideoEvent} ref={videoRef} className="hide"></video>
     </>
