@@ -22,10 +22,10 @@ const TodoItem = (props: TodoItem) => {
   const [checked, setChecked] = useState(false);
   const className = checked ? styles.done : styles.undone;
 
-  const doneFn = (event) => {
+  const doneFn = (event: any) => {
     setChecked(!checked)
     setTodos((beforeTodos) => {
-      const newTodos = beforeTodos.reduce((acc, t) => {
+      const newTodos = beforeTodos.reduce((acc: Todo[], t: Todo) => {
         const item = t.id === todo.id ? {...t, done: !t.done} : t;
 
         return [...acc, item];
@@ -38,7 +38,7 @@ const TodoItem = (props: TodoItem) => {
     <>
       <div className={className}>
         <input id={props.todo.id} type="checkbox" name={props.todo.name} onChange={doneFn} checked={checked}/>
-        <label for={props.todo.id}>{props.todo.name}</label>
+        <label htmlFor={props.todo.id}>{props.todo.name}</label>
       </div>
     </>
   )
@@ -48,15 +48,16 @@ const Todo: NextPage = () => {
   const [todos, setTodos] = useRecoilState(todoListState);
   const [text, setText] = useState<string>();
 
-  const todoCount = todos.filter(t => !t.done).length;
-  const doneCount = todos.filter(t => t.done).length;
+  const todoCount = todos.filter((t: Todo) => !t.done).length;
+  const doneCount = todos.filter((t: Todo) => t.done).length;
   const characterCount = text ? text.length : 0;
 
-  const addFn = (event) => {
+  const addFn = (event: any) => {
     console.log(event);
 
     console.log(text);
-    setTodos([...todos, {id: uuid(), name: text, done: false}]);
+    const todo: Todo = {id: uuid(), name: text||'', done: false}
+    setTodos([...todos, todo]);
     setText('')
   }
 
