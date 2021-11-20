@@ -10,6 +10,10 @@ const Timer: NextPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const seconds = [...Array(60)].map((_, i) => i);
+  const minutes = [...Array(60)].map((_, i) => i);
+  const hours = [...Array(24)].map((_, i) => i);
+
   const [count, setCount] = useState(0);
   const [maxCount, setMaxCount] = useState(0);
   const [formValue, setFormValue] = useState<formValues>({hour: 0, min: 0, sec: 0})
@@ -35,6 +39,7 @@ const Timer: NextPage = () => {
   }
 
   const handleHourChange = (e: any) => {
+    console.log(e);
     setFormValue(prev => {
       return {...prev, hour: parseInt(e.target.value)}
     });
@@ -122,15 +127,27 @@ const Timer: NextPage = () => {
       </div>
       <div>
         <span>Hour: </span>
-        <input type="text" value={formValue.hour} onChange={handleHourChange} name="hours"></input>
+        <select value={formValue.hour} onChange={handleHourChange}>
+          {hours.map(hour => {
+            return <option value={hour}>{hour.toString().padStart(2, '0')}</option>
+          })}
+        </select>
       </div>
       <div>
         <span>Min: </span>
-        <input type="text" value={formValue.min} onChange={handleMinChange} name="minutes"></input>
+        <select value={formValue.min} onChange={handleMinChange}>
+          {minutes.map(min=> {
+            return <option value={min}>{min.toString().padStart(2, '0')}</option>
+          })}
+        </select>
       </div>
       <div>
         <span>Sec: </span>
-        <input type="text" value={formValue.sec} onChange={handleSecChange} name="seconds"></input>
+        <select value={formValue.sec} onChange={handleSecChange}>
+          {seconds.map(sec=> {
+            return <option value={sec}>{sec.toString().padStart(2, '0')}</option>
+          })}
+        </select>
       </div>
       <button onClick={startTimer}>Start Timer</button>
       <button onClick={createVideo}>Picture in Picture</button>
