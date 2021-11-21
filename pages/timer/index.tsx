@@ -75,28 +75,40 @@ const Timer: NextPage = () => {
     const fgColor = count === 0 ? '#000000' : '#666666';
     const guageFgColor1 = '#ff1493';
     const guageFgColor2 = '#cc1074'
-    const guageBgColor = '#000000';
+    const guageBgColor1 = '#222222';
+    const guageBgColor2 = '#000000';
 
+    // 枠
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, width, height);
     ctx.fillStyle = fgColor;
     ctx.font = '30px Arial'
     ctx.fillText(value, 90, 45);
+
+    // guage border
     ctx.strokeStyle = '#666666';
     ctx.strokeRect(20, 70, 260, 10);
+
     // guage background
-    ctx.fillStyle = guageBgColor;
+    const bgGradient = ctx.createLinearGradient(21, 71, 21, 79);
+    bgGradient.addColorStop(0, guageBgColor2)
+    bgGradient.addColorStop(0.4, guageBgColor1)
+    bgGradient.addColorStop(0.6, guageBgColor1)
+    bgGradient.addColorStop(1, guageBgColor2)
+
+    ctx.fillStyle = bgGradient;
     ctx.fillRect(21, 71, 258, 8)
 
-    const gradient = ctx.createLinearGradient(21, 71, 21, 79);
-    gradient.addColorStop(0, guageFgColor2)
-    gradient.addColorStop(0.4, guageFgColor1)
-    gradient.addColorStop(0.6, guageFgColor1)
-    gradient.addColorStop(1, guageFgColor2)
-
-    ctx.fillStyle = gradient;
+    // guage
+    const fgGradient = ctx.createLinearGradient(21, 71, 21, 79);
+    fgGradient.addColorStop(0, guageFgColor2)
+    fgGradient.addColorStop(0.4, guageFgColor1)
+    fgGradient.addColorStop(0.6, guageFgColor1)
+    fgGradient.addColorStop(1, guageFgColor2)
     const remaining = 258 * (count / maxCount);
+
+    ctx.fillStyle = fgGradient;
     ctx.fillRect(21, 71, remaining, 8);
   }
 
