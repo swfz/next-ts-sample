@@ -27,23 +27,18 @@ const Schedule: NextPage = () => {
   const times = [...Array(24 * 60/unit)].map((_, i) => i);
   const [startTime, setStartTime] = useState();
 
-  const addSampleData = () => {
-    setItems([
-      {
-        id: uuid(),
-        name: 'aaa',
-        startTime: '09:00',
-        endTime: '09:05',
-        remark: ''
-      },
-      {
-        id: uuid(),
-        name: 'bbb',
-        startTime: '10:00',
-        endTime: '10:05',
-        remark: ''
-      },
-    ])
+  const sample: Item = {
+    id: uuid(),
+    name: 'sampleData',
+    startTime: '01:00',
+    endTime: '01:30',
+    remark: 'Sample Remark'
+  }
+
+  const addItem = () => {
+    setItems((prevItems) => {
+      return [...prevItems, {id: uuid(), name: '', startTime: '00:00', endTime: '00:00', remark: ''}]
+    })
   }
 
   const isBetween = (item: Item, time: number) => {
@@ -54,12 +49,8 @@ const Schedule: NextPage = () => {
 
     const hour = Math.floor(time * unit / 60);
     const min = time * unit % 60;
-    console.log(time, hour, min)
-    console.log('----------')
 
     const targetDay = dayjs().hour(hour).minute(min);
-
-    console.log(targetDay, start);
 
     return targetDay.isBetween(start, end, null, '[)') ? "■" : "□";
   }
@@ -86,11 +77,11 @@ const Schedule: NextPage = () => {
             {columns.map(column => {
               return <td className={column} key={column}>{column}</td>
             })}
-            <td className="timeline">timeline</td>
+            <td className="timeline">timeline(hour)</td>
           </tr>
           <tr>
             {columns.map(column => {
-              return <td className={column} key={column}></td>
+              return <td className="sample" key={column}>{sample[column]}</td>
             })}
             <td className="timeline">
               {times.map(t => {
@@ -121,10 +112,9 @@ const Schedule: NextPage = () => {
           })}
         </tbody>
       </table>
-      <button onClick={addSampleData}>SampleData</button>
+      <button onClick={addItem}>+</button>
     </>
   )
 }
-
 
 export default Schedule
