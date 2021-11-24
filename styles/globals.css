@@ -29,12 +29,6 @@ td {
   margin: 0px;
 }
 
-.block {
-  width: 10px;
-  display: inline-block;
-  background-color: #aaa;
-}
-
 .intime {
   background-color: #aaa;
 }
@@ -46,7 +40,6 @@ td {
 .name {
   position: sticky;
   left: 0;
-  color: #fff;
   background: #eee;
   &:before{
     content: "";
@@ -57,6 +50,11 @@ td {
     height: 100%;
     border: 1px solid #ccc;
   }
+}
+
+.frame {
+  display: inline-block;
+  width: 1em;
 }
 
 .timeline {

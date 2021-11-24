@@ -23,7 +23,8 @@ type Column = 'name'|'startTime'|'endTime'|'remark';
 const Schedule: NextPage = () => {
   const [items, setItems] = useState<Item[]>([]);
   const columns: Column[] = ['name', 'startTime', 'endTime', 'remark'];
-  const times = [...Array(24 * 60)].map((_, i) => i);
+  const unit = 10;
+  const times = [...Array(24 * 60/unit)].map((_, i) => i);
   const [startTime, setStartTime] = useState();
 
   const addSampleData = () => {
@@ -51,12 +52,16 @@ const Schedule: NextPage = () => {
     const start = dayjs().hour(startHour).minute(startMin);
     const end = dayjs().hour(endHour).minute(endMin);
 
-    const hour = time / 60;
-    const min = time % 60;
+    const hour = Math.floor(time * unit / 60);
+    const min = time * unit % 60;
+    console.log(time, hour, min)
+    console.log('----------')
 
     const targetDay = dayjs().hour(hour).minute(min);
 
-    return targetDay.isBetween(start, end) ? "■" : "□";
+    console.log(targetDay, start);
+
+    return targetDay.isBetween(start, end, null, '[)') ? "■" : "□";
   }
 
   const fixHandleInput = (targetItem: Item, column: Column) => {
@@ -79,21 +84,21 @@ const Schedule: NextPage = () => {
         <thead>
           <tr>
             {columns.map(column => {
-              return <td key={column}>{column}</td>
+              return <td className={column} key={column}>{column}</td>
             })}
-            <td>timeline</td>
+            <td className="timeline">timeline</td>
           </tr>
           <tr>
             {columns.map(column => {
-              return <td key={column}></td>
+              return <td className={column} key={column}></td>
             })}
-            <td>
+            <td className="timeline">
               {times.map(t => {
-                if(t % 60 === 0){
-                  return t/60
+                if(t % (60/unit) === 0){
+                  return <div key={t} className="frame">{t/(60/unit)}</div>
                 }
                 else {
-                  return '□';
+                  return <div key={t} className="frame">-</div>;
                 }
               })}
             </td>
@@ -108,7 +113,7 @@ const Schedule: NextPage = () => {
                 })}
                 <td className="timeline">
                   {times.map(t => {
-                    return <span key={t} className="block">{isBetween(item, t)}</span>
+                    return <span key={t} className="frame">{isBetween(item, t)}</span>
                   })}
                 </td>
               </tr>
